@@ -1,8 +1,8 @@
 ## 无侵入式造数
 
 ### 前言
-- 该工程旨在为哪些造数十分麻烦且会影响开发进度的伙伴提供一个临时的解决方案，为各种方法提供造数能力
-- 工程基于javaagent开发（javassist）
+- 该工程旨在为哪些造数十分麻烦且会影响开发进度的伙伴提供一个临时的解决方案，为各种java方法提供造数能力
+- 工程基于javaagent开发（用到javassist）
 - 操作台基于 https://gitee.com/zhang-zhihan/SpringBoot_v2.git 开源脚手架项目搭建
 
 ##### 1. 没有基础版、没有vip版本、没有付费群、没有收费二维码
@@ -36,8 +36,12 @@ agent-demo
 1. 关闭agent-test工程，然后设定agent-test的vm参数
 ```
    -javaagent:/Users/yxy/work/java/agent/agent-demo/agent-core/target/agent-core-1.0-SNAPSHOT-jar-with-dependencies.jar={\"className\":\"com.yxy.agent.controller\",\"codeHref\":\"http://127.0.0.1:8080/CreateDataExternalController/findParam2\",\"systemCode\":\"pft\"}
+   其中 className 指向的地址表示agent-test工程中要造数的类路径，多个路径以英文逗号隔开
+   codeHref 指向agent-web工程的地址
+   systemCode 要与agent-web中菜单配置的systemCode保持一致（默认为pft）
 ```
-2. 打开postmain，调用接口
+
+2. 打开postman，调用接口
 ```
 POST http://127.0.0.1:8181/test/v2/getUser2
 {
