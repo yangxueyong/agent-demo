@@ -2,7 +2,7 @@
 
 ### 前言
 - 该工程旨在为哪些造数十分麻烦且会影响开发进度的伙伴提供一个临时的解决方案，为各种java方法提供造数能力
-- 工程基于javaagent开发（用到javassist）
+- 工程基于javassist开发（javaagent技术）
 - 操作台基于 https://gitee.com/zhang-zhihan/SpringBoot_v2.git 开源脚手架项目搭建
 
 ##### 1. 没有基础版、没有vip版本、没有付费群、没有收费二维码
