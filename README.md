@@ -33,7 +33,7 @@ agent-demo
 5. 启动agent-test工程run AgentTestApplication
 
 ### 验证过程
-1. 关闭agent-test工程，然后设定agent-test的vm参数
+1. 关闭agent-test工程，然后设定agent-test的vm参数，再重新启动
 ```
    -javaagent:/Users/yxy/work/java/agent/agent-demo/agent-core/target/agent-core-1.0-SNAPSHOT-jar-with-dependencies.jar={\"className\":\"com.yxy.agent.controller\",\"codeHref\":\"http://127.0.0.1:8080/CreateDataExternalController/findParam2\",\"systemCode\":\"pft\"}
    其中 className 指向的地址表示agent-test工程中要造数的类路径，多个路径以英文逗号隔开
