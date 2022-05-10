@@ -20,7 +20,7 @@ public class TestController {
     @Autowired
     private AppletService appletService;
 
-    @PostMapping("/v2/getUser")
+    @PostMapping("/v2/getUser2")
     public R getUser2(@RequestBody Q<WxV2IO> q) {
         R<WxUserVO> user2 = appletService.getUser2(q);
         return user2;

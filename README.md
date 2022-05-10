@@ -1,17 +1,13 @@
+## 无侵入式造数
 
 ### 前言
 - 该工程旨在为哪些造数十分麻烦且会影响开发进度的伙伴提供一个临时的解决方案，为各种方法提供造数能力
 - 工程基于javaagent开发（javassist）
 - 操作台基于 https://gitee.com/zhang-zhihan/SpringBoot_v2.git 开源脚手架项目搭建
 
-### 项目介绍
-  基于springboot的一款纯净脚手架。努力打造一款免费开源、注释全、文档全适合新手学习、方便快速二次开发的框架。
-   
-
 ##### 1. 没有基础版、没有vip版本、没有付费群、没有收费二维码
 ##### 2. 遵循开源真谛，一切免费才是真开源
 ##### 3. 不求回报，你使用快乐就是这个项目最大的快乐！
-
 
 
 ### 组织架构
@@ -43,7 +39,7 @@ agent-demo
 ```
 2. 打开postmain，调用接口
 ```
-POST http://127.0.0.1:8181/test/v2/getUser
+POST http://127.0.0.1:8181/test/v2/getUser2
 {
   "body":{ 
     "idCardSuffix":"yyy",
@@ -67,6 +63,37 @@ POST http://127.0.0.1:8181/test/v2/getUser
     "msg": "非法的phoneCode"
 }
 ```
-4. 然后打开浏览器，输入地址 http://localhost:8080/admin/index，用户名密码为 create_data_user / create_data_user 
-5. 
+4. 然后打开浏览器，输入地址 http://localhost:8080/admin/index，用户名密码为 create_data_user / create_data_user
+   
+5. 在页面中可以看到如下信息
+![img1](https://raw.githubusercontent.com/yangxueyong/agent-demo/main/image/img.png "img1.jpg")
+- 接口名称 显示的就是刚才 第二步中的接口
 
+6. 然后点击右侧按钮"编辑"，将状态改为"启用"，然后点击"查看挡板"
+![img1](https://raw.githubusercontent.com/yangxueyong/agent-demo/main/image/img_1.png "img1.jpg")
+- 点击新增
+
+7. 输入 入参和出参，点击"提交"
+![img1](https://raw.githubusercontent.com/yangxueyong/agent-demo/main/image/img_2.png "img1.jpg")
+```
+表示当传入的参数是
+"idCardSuffix":"yyy"
+
+则返回值为
+{
+    "data": {
+        "wxNickName": "王五",
+        "wxOpenId": "yyyyyy",
+        "phoneNum": "158000000000",
+        "userName": "yyyyyy",
+        "userId": "xxxxxxx",
+        "wxHeadImg": "yyyyyy"
+    },
+    "code": 200,
+    "success": true,
+    "msg": "成功"
+}
+```
+8. 然后重复第二步，再次调用postman
+![img1](https://raw.githubusercontent.com/yangxueyong/agent-demo/main/image/img_3.png "img1.jpg")
+- 可以看到返回值已经变成我们设定的返回值了
