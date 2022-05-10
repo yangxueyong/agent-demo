@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.test.mapper.auto.TPBaffleDataDetailMapper">
+    <resultMap id="BaseResultMap" type="com.fc.test.model.auto.TPBaffleDataDetailInfo">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="method_id" jdbcType="VARCHAR" property="methodId" />
+        <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+        <result column="in_param" jdbcType="VARCHAR" property="inParam" />
+        <result column="out_param" jdbcType="VARCHAR" property="outParam" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="create_user_no" jdbcType="VARCHAR" property="createUserNo" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="maintenance_user_no" jdbcType="VARCHAR" property="maintenanceUserNo" />
+        <result column="maintenance_time" jdbcType="TIMESTAMP" property="maintenanceTime" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        method_id,
+        user_no,
+        in_param,
+        out_param,
+        status,
+        create_user_no,
+        create_time,
+        maintenance_user_no,
+        maintenance_time,
+        remark
+    </sql>
+    <select id="selectByExample" parameterType="com.fc.test.model.auto.TPBaffleDataDetailInfoExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_p_baffle_data_detail_info
+        where 1=1
+        <if test="methodId != null">
+            and method_id = #{methodId}
+        </if>
+        <if test="name != null">
+            and (user_no like concat('%', #{name},'%') or in_param like concat('%', #{name},'%'))
+        </if>
+        order by id desc
+    </select>
+
+    <select id="selectByInClass" parameterType="com.fc.test.model.auto.TPBaffleDataDetailInfoByClassNameExample" resultMap="BaseResultMap">
+        select d.* from t_p_baffle_data_detail_info d
+        inner join t_p_baffle_data_method_info m
+           on m.id = d.method_id
+           and d.status=1
+           and m.status=1
+           and m.system_code =#{systemCode}
+           and m.method_name =#{methodName}
+           and LOCATE(d.in_param ,#{inParam})>0
+<!--           and d.in_param  like concat('%',#{inParam},'%')-->
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_p_baffle_data_detail_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from t_p_baffle_data_detail_info
+        where id in
+            <foreach collection="lists" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.fc.test.model.auto.TPBaffleDataDetailInfo">
+        insert into t_p_baffle_data_detail_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="methodId != null">
+                method_Id,
+            </if>
+            <if test="inParam != null">
+                in_Param,
+            </if>
+            <if test="outParam != null">
+                out_Param,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createUserNo != null">
+                create_User_No,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="maintenanceUserNo != null">
+                maintenance_User_No,
+            </if>
+            <if test="maintenanceTime != null">
+                maintenance_Time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="methodId != null">
+                #{methodId,jdbcType=VARCHAR},
+            </if>
+            <if test="inParam != null">
+                #{inParam,jdbcType=VARCHAR},
+            </if>
+            <if test="outParam != null">
+                #{outParam,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIGINT},
+            </if>
+            <if test="createUserNo != null">
+                #{createUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="maintenanceUserNo != null">
+                #{maintenanceUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceTime != null">
+                #{maintenance_Time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="map">
+        update t_p_baffle_data_detail_info
+        <set>
+            <if test="userNo != null">
+                user_no = #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="inParam != null">
+                in_param = #{inParam,jdbcType=VARCHAR},
+            </if>
+            <if test="outParam != null">
+                out_param = #{outParam,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIGINT},
+            </if>
+            <if test="maintenanceUserNo != null">
+                maintenance_user_no = #{maintenanceUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceTime != null">
+                maintenance_time = #{maintenanceTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+                                                 
+</mapper>

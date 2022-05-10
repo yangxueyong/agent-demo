@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.test.mapper.auto.TPBaffleDataMethodMapper">
+    <resultMap id="BaseResultMap" type="com.fc.test.model.auto.TPBaffleDataMethodInfo">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+        <result column="method_china_name" jdbcType="VARCHAR" property="methodChinaName" />
+        <result column="system_code" jdbcType="VARCHAR" property="systemCode" />
+        <result column="create_user_no" jdbcType="VARCHAR" property="createUserNo" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="maintenance_user_no" jdbcType="VARCHAR" property="maintenanceUserNo" />
+        <result column="maintenance_time" jdbcType="TIMESTAMP" property="maintenanceTime" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        method_name,
+        method_china_name,
+        system_code,
+        create_user_no,
+        create_time,
+        maintenance_user_no,
+        maintenance_time,
+        status
+    </sql>
+    <select id="selectByExample" parameterType="com.fc.test.model.auto.TPBaffleDataMethodInfoExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_p_baffle_data_method_info
+        where 1=1
+        <if test="systemCode != null">
+            and system_code = #{systemCode}
+        </if>
+        <if test="name != null">
+            and (method_name like concat('%', #{name},'%') or method_china_name like concat('%', #{name},'%'))
+        </if>
+        order by id desc
+    </select>
+
+    <select id="selectByInClass" parameterType="com.fc.test.model.auto.TPBaffleDataDetailInfoByClassNameExample" resultMap="BaseResultMap">
+        select * from t_p_baffle_data_method_info m
+                where m.system_code = #{systemCode}
+                   and m.method_name = #{methodName}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_p_baffle_data_method_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="map">
+        update t_p_baffle_data_method_info
+        <set>
+            <if test="methodChinaName != null">
+                method_china_name = #{methodChinaName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIGINT},
+            </if>
+            <if test="maintenanceUserNo != null">
+                maintenance_user_no = #{maintenanceUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceTime != null">
+                maintenance_time = #{maintenanceTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.fc.test.model.auto.TPBaffleDataMethodInfo">
+        insert into t_p_baffle_data_method_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="methodName != null">
+                method_name,
+            </if>
+            <if test="methodChinaName != null">
+                method_china_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="systemCode != null">
+                system_Code,
+            </if>
+            <if test="createUserNo != null">
+                create_User_No,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="maintenanceUserNo != null">
+                maintenance_User_No,
+            </if>
+            <if test="maintenanceTime != null">
+                maintenance_Time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="methodName != null">
+                #{methodName,jdbcType=VARCHAR},
+            </if>
+            <if test="methodChinaName != null">
+                #{methodChinaName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIGINT},
+            </if>
+            <if test="systemCode != null">
+                #{systemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserNo != null">
+                #{createUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="maintenanceUserNo != null">
+                #{maintenanceUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="maintenanceTime != null">
+                #{maintenance_Time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
