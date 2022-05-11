@@ -49,8 +49,11 @@ public class PublicAgentMain {
 
                 className = className.replaceAll("/",".");
 
-                boolean flag = false;
+                if(className != null && className.contains("EnhancerBySpringCGLIB")){
+                    return null;
+                }
 
+                boolean flag = false;
                 for (String name : classNames) {
                     if (className != null && className.startsWith(name)) {
                         flag = true;
