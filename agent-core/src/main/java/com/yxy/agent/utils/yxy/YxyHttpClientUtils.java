@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.yxy.agent.PublicAgentMain;
-import javassist.CtClass;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -24,7 +23,7 @@ import org.apache.http.util.EntityUtils;
  * @author yxy
  * @date 2022/05/10
  */
-public class HttpClientUtils {
+public class YxyHttpClientUtils {
 
     /**
      * 发送post请求
@@ -161,22 +160,9 @@ public class HttpClientUtils {
     }
 
     public static Object getOutParam(Object[] inParam, String className, String methodName, String returnClassName){
-        String classMethodName = className + "." + methodName;
         try {
-            String s1 = JSON.toJSONString(inParam);
-            String x = s1.replaceAll("\"", "\\\\\"");
-            String requestJson = "{" +
-                    "    \"inParam\":\"" + x + "\"," +
-                    "    \"methodName\":\"" + classMethodName + "\"," +
-                    "    \"systemCode\":\"" + PublicAgentMain.externalParamInfo.getSystemCode() + "\"" +
-                    "}";
-            System.out.println("yxyagent->returnClassName->" + returnClassName);
-            System.out.println("yxyagent->请求数据->" + requestJson);
-            String s = sendPostJson(PublicAgentMain.externalParamInfo.getCodeHref(), requestJson);
-            System.out.println("yxyagent->返回值->" + s);
-            if(s == null || s.trim().equals("")){
-                return null;
-            }
+            String s = getOutParamString(inParam, className, methodName, returnClassName);
+            if (s == null || "".equals(s.trim())) return null;
             Object c = null;
             if("int".equals(returnClassName)){
                 System.out.println("yxyagent->returnClassName-1>Integer->" + Integer.valueOf(s));
@@ -202,10 +188,29 @@ public class HttpClientUtils {
             }
             return c;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return null;
         }
     }
 
+    private static String getOutParamString(Object[] inParam, String className, String methodName, String returnClassName) throws Exception {
+        String classMethodName = className + "." + methodName;
+        String s1 = JSON.toJSONString(inParam);
+        String x = s1.replaceAll("\"", "\\\\\"");
+        String requestJson = "{" +
+                "    \"inParam\":\"" + x + "\"," +
+                "    \"methodName\":\"" + classMethodName + "\"," +
+                "    \"systemCode\":\"" + PublicAgentMain.externalParamInfo.getSystemCode() + "\"" +
+                "}";
+        System.out.println("yxyagent->returnClassName->" + returnClassName);
+        System.out.println("yxyagent->请求数据->" + requestJson);
+        String s = sendPostJson(PublicAgentMain.externalParamInfo.getCodeHref(), requestJson);
+        System.out.println("yxyagent->返回值->" + s);
+        if(s == null || s.trim().equals("")){
+            return null;
+        }
+        return s;
+    }
 
 
     public static String encryptBASE64(String username, String password) {

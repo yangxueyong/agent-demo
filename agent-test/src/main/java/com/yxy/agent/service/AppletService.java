@@ -56,4 +56,8 @@ public class AppletService {
         doubles[1] = i1;
         return doubles;
     }
+
+    public void testVoid(){
+        System.out.println("空的-->");
+    }
 }

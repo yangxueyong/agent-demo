@@ -43,14 +43,14 @@
     </select>
 
     <select id="selectByInClass" parameterType="com.fc.test.model.auto.TPBaffleDataDetailInfoByClassNameExample" resultMap="BaseResultMap">
-        select d.* from t_p_baffle_data_detail_info d
+        select * from (select d.* from t_p_baffle_data_detail_info d
         inner join t_p_baffle_data_method_info m
            on m.id = d.method_id
            and d.status=1
            and m.status=1
            and m.system_code =#{systemCode}
            and m.method_name =#{methodName}
-           and LOCATE(d.in_param ,#{inParam})>0
+           and LOCATE(d.in_param ,#{inParam})>0) c limit 1
 <!--           and d.in_param  like concat('%',#{inParam},'%')-->
     </select>
 

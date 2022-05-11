@@ -49,4 +49,10 @@ public class TestController {
         List<CustomerVO> datas = appletService.getCustomer(q.getBody(),num);
         return datas;
     }
+
+    @PostMapping("/v2/testVoid")
+    public R testVoid() {
+        appletService.testVoid();
+        return R.data(true);
+    }
 }

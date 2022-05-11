@@ -39,9 +39,9 @@
     </select>
 
     <select id="selectByInClass" parameterType="com.fc.test.model.auto.TPBaffleDataDetailInfoByClassNameExample" resultMap="BaseResultMap">
-        select * from t_p_baffle_data_method_info m
+       select * from ( select * from t_p_baffle_data_method_info m
                 where m.system_code = #{systemCode}
-                   and m.method_name = #{methodName}
+                   and m.method_name = #{methodName}) c limit 1
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

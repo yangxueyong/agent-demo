@@ -76,9 +76,16 @@ public class PublicAgentMain {
                             return null;
                         }
                     }
+                    System.out.println("ctClass->" + ctClass.getName());
                     // 获得类中的所有方法
                     for (CtMethod declaredMethod : ctClass.getDeclaredMethods()) {
-                        newMethod(className,declaredMethod);
+                        System.out.println("declaredMethod->" + declaredMethod.getName());
+                        if (!declaredMethod.getReturnType().equals(CtClass.voidType)) {
+                            newMethod(className, declaredMethod);
+                        }else{
+                            System.out.println("进入到else------------->\n\n\n\n");
+//                            declaredMethod.insertAfter("System.out.println(\"这是个返回值为空的方法\");");
+                        }
                     }
                     return ctClass.toBytecode();
                 } catch (Exception e) {
@@ -106,10 +113,10 @@ public class PublicAgentMain {
 
             //2. 改变原有的方法,将 原有的 sayHello 方法进行重写操作
             if (oldMethod.getReturnType().equals(CtClass.voidType)) {
-                System.out.println(String.format(voidSource,oldMethodName));
+//                System.out.println(String.format(voidSource,oldMethodName));
                 oldMethod.setBody(String.format(voidSource,oldMethodName));
             } else {
-                System.out.println(String.format(source, className,oldMethodName,oldMethod.getReturnType().getName(),oldMethodName));
+//                System.out.println(String.format(source, className,oldMethodName,oldMethod.getReturnType().getName(),oldMethodName));
                 oldMethod.setBody(String.format(source, className,oldMethodName,oldMethod.getReturnType().getName(),oldMethodName));
             }
         } catch (CannotCompileException e){
@@ -117,7 +124,6 @@ public class PublicAgentMain {
         }catch ( NotFoundException e) {
             e.printStackTrace();
         }
-
         return copy;
 
     }
@@ -134,8 +140,11 @@ public class PublicAgentMain {
     final static String source = "{ long begin = System.currentTimeMillis();\n" +
             "        Object result;\n" +
             "        try {\n" +
-            "            Object out = com.yxy.agent.utils.yxy.HttpClientUtils.getOutParam($args,\"%s\",\"%s\",\"%s\");" +
-            "            System.out.println(\"---yxyagent最终返回-->\" + out);" +
+            "            Object out = com.yxy.agent.utils.yxy.YxyHttpClientUtils.getOutParam($args,\"%s\",\"%s\",\"%s\");" +
+            "            \n" +
+            "            String s = com.alibaba.fastjson.JSON.toJSONString(out);" +
+            "            System.out.println(\"---yxyagent最终返回1-->\" + s);" +
+            "            System.out.println(\"---yxyagent最终返回2-->\" + out);" +
             "            if(out != null){" +
             "               if(out instanceof Integer){\n" +
                     "            return ((Integer) out).intValue();\n" +
@@ -154,7 +163,7 @@ public class PublicAgentMain {
                     "        }else if(out instanceof Long){\n" +
                     "            return ((Long) out).longValue();\n" +
                     "        }" +
-            "               return out;" +
+            "               return ($w)out;" +
             "            }" +
             "            result = ($w)%s$agent($$);\n" + //s% 将参数传递到下一个方法，然后使用 s% 传递的参数进行替换操作, $w 表示的是在进行return的时候会强制的进行类型转换
             "        } finally {\n" +
@@ -164,6 +173,13 @@ public class PublicAgentMain {
             "        return ($r) result;}";
 
     //没有返回值的方法
+//    final static String voidSource = "{long begin = System.currentTimeMillis();\n" +
+//            "        try {\n" +
+//            "            %s$agent($$);\n" +
+//            "        } finally {\n" +
+//            "            long end = System.currentTimeMillis();\n" +
+//            "            System.out.println(\"yxyagent代理执行时间->\"+(end - begin));\n" +
+//            "        }}";
     final static String voidSource = "{long begin = System.currentTimeMillis();\n" +
             "        try {\n" +
             "            %s$agent($$);\n" +
