@@ -1,6 +1,6 @@
-package com.yxy.agent.entity.res;
+package com.yxy.cloud.entity.res;
 
-import com.yxy.agent.exception.ExceptionMember;
+import com.yxy.cloud.exception.ExceptionMember;
 
 import java.io.Serializable;
 import java.util.Optional;

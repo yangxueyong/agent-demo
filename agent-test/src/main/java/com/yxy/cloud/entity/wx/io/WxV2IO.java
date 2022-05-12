@@ -1,4 +1,4 @@
-package com.yxy.agent.entity.wx.io;
+package com.yxy.cloud.entity.wx.io;
 
 import lombok.Data;
 

@@ -101,3 +101,9 @@ POST http://127.0.0.1:8181/test/v2/getUser2
 8. 然后重复第二步，再次调用postman
 ![img1](https://raw.githubusercontent.com/yangxueyong/agent-demo/main/image/img_3.png "img1.jpg")
 - 可以看到返回值已经变成我们设定的返回值了
+
+### 注意
+- 将agent-test打成jar包运行时，直接添加-javaagent是无法启动，完整启动命令如下：
+```
+java -Xms512m -Xmx512m -javaagent:/Users/yxy/work/java/agent/yxy-agent-demo/agent-core/target/agent-core-1.0-SNAPSHOT-jar-with-dependencies.jar="{\"className\":\"com.yxy.cloud.service\",\"codeHref\":\"http://127.0.0.1:8080/CreateDataExternalController/findParam2\",\"systemCode\":\"pft\"}" -XX:TieredStopAtLevel=1 -noverify -Dspring.output.ansi.enabled=always -Dcom.sun.management.jmxremote -Dspring.jmx.enabled=true -Dspring.liveBeansView.mbeanDomain -Dspring.application.admin.enabled=true -Dfile.encoding=UTF-8  -jar agent-test-0.0.1-SNAPSHOT.jar
+```

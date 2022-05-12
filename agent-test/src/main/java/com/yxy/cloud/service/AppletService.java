@@ -1,11 +1,11 @@
-package com.yxy.agent.service;
+package com.yxy.cloud.service;
 
-import com.yxy.agent.entity.req.Q;
-import com.yxy.agent.entity.res.R;
-import com.yxy.agent.entity.wx.io.CustomerIO;
-import com.yxy.agent.entity.wx.io.WxV2IO;
-import com.yxy.agent.entity.wx.vo.CustomerVO;
-import com.yxy.agent.entity.wx.vo.WxUserVO;
+import com.yxy.cloud.entity.req.Q;
+import com.yxy.cloud.entity.res.R;
+import com.yxy.cloud.entity.wx.io.CustomerIO;
+import com.yxy.cloud.entity.wx.io.WxV2IO;
+import com.yxy.cloud.entity.wx.vo.CustomerVO;
+import com.yxy.cloud.entity.wx.vo.WxUserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AppletService {
+public class AppletService implements IAppletService {
     public R<WxUserVO> getUser2(Q<WxV2IO> q) {
         WxV2IO io = q.getBody();
         String phoneCode = io.getPhoneCode();

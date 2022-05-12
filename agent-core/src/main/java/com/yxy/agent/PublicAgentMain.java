@@ -39,8 +39,9 @@ public class PublicAgentMain {
             return;
         }
 
-        String[] classNames = className1.split(",");
+        System.out.println("yxyagent-> externalParamInfo->"+JSON.toJSONString(externalParamInfo));
 
+        String[] classNames = className1.split(",");
 
         // 使用 javassist ,在运行时修改 class 字节码，就是 插桩
         ClassPool pool = ClassPool.getDefault();
@@ -56,6 +57,7 @@ public class PublicAgentMain {
                 boolean flag = false;
                 for (String name : classNames) {
                     if (className != null && className.startsWith(name)) {
+                        System.out.println("yxyagent-> className-> " + className);
                         flag = true;
                         break;
                     }
@@ -69,7 +71,7 @@ public class PublicAgentMain {
                     try {
                         ctClass = pool.get(className);
                     } catch (NotFoundException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     } finally {
                         try {
                             pool.insertClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
@@ -119,8 +121,9 @@ public class PublicAgentMain {
 //                System.out.println(String.format(voidSource,oldMethodName));
                 oldMethod.setBody(String.format(voidSource,oldMethodName));
             } else {
-//                System.out.println(String.format(source, className,oldMethodName,oldMethod.getReturnType().getName(),oldMethodName));
-                oldMethod.setBody(String.format(source, className,oldMethodName,oldMethod.getReturnType().getName(),oldMethodName));
+                String returnName = oldMethod.getReturnType().getName();
+                System.out.println(String.format(source, returnName,className,oldMethodName, returnName,oldMethodName));
+                oldMethod.setBody(String.format(source, returnName,className,oldMethodName,returnName,oldMethodName));
             }
         } catch (CannotCompileException e){
             e.printStackTrace();
@@ -143,30 +146,33 @@ public class PublicAgentMain {
     final static String source = "{ long begin = System.currentTimeMillis();\n" +
             "        Object result;\n" +
             "        try {\n" +
-            "            Object out = com.yxy.agent.utils.yxy.YxyHttpClientUtils.getOutParam($args,\"%s\",\"%s\",\"%s\");" +
-            "            \n" +
-            "            String s = com.alibaba.fastjson.JSON.toJSONString(out);" +
-            "            System.out.println(\"---yxyagent最终返回1-->\" + s);" +
-            "            System.out.println(\"---yxyagent最终返回2-->\" + out);" +
+            "            String returnClassName = \"%s\";" +
+            "            Object out = com.yxy.agent.utils.yxy.YxyHttpClientUtils.getOutParam($args,\"%s\",\"%s\");" +
+            "            String s = out;" +
+            "            System.out.println(\"---yxyagent最终返回-->\" + s);" +
             "            if(out != null){" +
-            "               if(out instanceof Integer){\n" +
-                    "            return ((Integer) out).intValue();\n" +
-                    "        }else if(out instanceof Double){\n" +
-                    "            return ((Double) out).doubleValue();\n" +
-                    "        }else if(out instanceof Float){\n" +
-                    "            return ((Float) out).floatValue();\n" +
-                    "        }else if(out instanceof Boolean){\n" +
-                    "            return ((Boolean) out).booleanValue();\n" +
-                    "        }else if(out instanceof Character){\n" +
-                    "            return ((Character) out).charValue();\n" +
-                    "        }else if(out instanceof Short){\n" +
-                    "            return ((Short) out).shortValue();\n" +
-                    "        }else if(out instanceof Byte){\n" +
-                    "            return ((Byte) out).byteValue();\n" +
-                    "        }else if(out instanceof Long){\n" +
-                    "            return ((Long) out).longValue();\n" +
-                    "        }" +
-            "               return ($w)out;" +
+            "               if(\"int\".equals(returnClassName)){\n" +
+                "                return Integer.valueOf(s).intValue();\n" +
+                "            }else if(\"double\".equals(returnClassName)){\n" +
+                "                return Double.valueOf(s).doubleValue();\n" +
+                "            }else if(\"float\".equals(returnClassName)){\n" +
+                "                return Float.valueOf(s).floatValue();\n" +
+                "            }else if(\"long\".equals(returnClassName)){\n" +
+                "                return Long.valueOf(s).longValue();\n" +
+                "            }else if(\"boolean\".equals(returnClassName)){\n" +
+                "                return Boolean.valueOf(s).booleanValue();\n" +
+                "            }else if(\"byte\".equals(returnClassName)){\n" +
+                "                return Byte.valueOf(s).byteValue();\n" +
+                "            }else if(\"char\".equals(returnClassName)){\n" +
+                "                return Character.valueOf(s.charAt(0));\n" +
+                "            }else if(\"short\".equals(returnClassName)){\n" +
+                "                return Short.valueOf(s).shortValue();\n" +
+                "            }else if(returnClassName.endsWith(\"[]\")){\n" +
+                "                return ($w)com.alibaba.fastjson.JSON.parseObject(s, java.util.List.class);\n" +
+                "            }else {\n" +
+                "                return ($w)com.alibaba.fastjson.JSON.parseObject(s, %s.class);\n" +
+                "            }" +
+//            "               return ($w)out;" +
             "            }" +
             "            result = ($w)%s$agent($$);\n" + //s% 将参数传递到下一个方法，然后使用 s% 传递的参数进行替换操作, $w 表示的是在进行return的时候会强制的进行类型转换
             "        } finally {\n" +

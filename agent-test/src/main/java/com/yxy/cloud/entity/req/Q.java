@@ -1,5 +1,7 @@
-package com.yxy.agent.entity.req;
+package com.yxy.cloud.entity.req;
 
+
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * @author 29520
  * @date 2021/05/31
  */
+@NoArgsConstructor
 public class Q<B> implements Serializable {
 
     private RequestHeader header;

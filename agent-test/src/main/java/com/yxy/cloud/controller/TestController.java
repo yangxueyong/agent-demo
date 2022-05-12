@@ -1,12 +1,13 @@
-package com.yxy.agent.controller;
+package com.yxy.cloud.controller;
 
-import com.yxy.agent.entity.req.Q;
-import com.yxy.agent.entity.res.R;
-import com.yxy.agent.entity.wx.io.CustomerIO;
-import com.yxy.agent.entity.wx.io.WxV2IO;
-import com.yxy.agent.entity.wx.vo.CustomerVO;
-import com.yxy.agent.entity.wx.vo.WxUserVO;
-import com.yxy.agent.service.AppletService;
+import com.alibaba.fastjson.JSON;
+import com.yxy.cloud.entity.req.Q;
+import com.yxy.cloud.entity.res.R;
+import com.yxy.cloud.entity.wx.io.CustomerIO;
+import com.yxy.cloud.entity.wx.io.WxV2IO;
+import com.yxy.cloud.entity.wx.vo.CustomerVO;
+import com.yxy.cloud.entity.wx.vo.WxUserVO;
+import com.yxy.cloud.service.AppletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

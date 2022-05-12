@@ -1,4 +1,4 @@
-package com.yxy.agent.entity.req;
+package com.yxy.cloud.entity.req;
 
 
 import java.io.Serializable;

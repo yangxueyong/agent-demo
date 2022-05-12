@@ -1,4 +1,4 @@
-package com.yxy.agent.entity.wx.vo;
+package com.yxy.cloud.entity.wx.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

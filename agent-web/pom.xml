@@ -5,7 +5,7 @@
 
 	<groupId>com.example</groupId>
 	<artifactId>agent-web</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>agent-web</name>
 	<description>agent-web</description>
 

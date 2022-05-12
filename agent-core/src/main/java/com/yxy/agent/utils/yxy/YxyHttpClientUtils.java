@@ -159,41 +159,19 @@ public class YxyHttpClientUtils {
         return "";
     }
 
-    public static Object getOutParam(Object[] inParam, String className, String methodName, String returnClassName){
+    public static String getOutParam(Object[] inParam, String className, String methodName){
         try {
-            String s = getOutParamString(inParam, className, methodName, returnClassName);
+            String s = getOutParamString(inParam, className, methodName);
             if (s == null || "".equals(s.trim())) return null;
-            Object c = null;
-            if("int".equals(returnClassName)){
-                System.out.println("yxyagent->returnClassName-1>Integer->" + Integer.valueOf(s));
-                return Integer.valueOf(s);
-            }else if("double".equals(returnClassName)){
-                return Double.valueOf(s);
-            }else if("float".equals(returnClassName)){
-                return Float.valueOf(s);
-            }else if("long".equals(returnClassName)){
-                return Long.valueOf(s);
-            }else if("boolean".equals(returnClassName)){
-                return Boolean.valueOf(s);
-            }else if("byte".equals(returnClassName)){
-                return Byte.valueOf(s);
-            }else if("char".equals(returnClassName)){
-                return Character.valueOf(s.charAt(0));
-            }else if("short".equals(returnClassName)){
-                return Short.valueOf(s);
-            }else if(returnClassName.endsWith("[]")){
-                c = JSON.parseObject(s, List.class);
-            }else {
-                c = JSON.parseObject(s, Class.forName(returnClassName));
-            }
-            return c;
+//            Object c = null;
+            return s;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private static String getOutParamString(Object[] inParam, String className, String methodName, String returnClassName) throws Exception {
+    private static String getOutParamString(Object[] inParam, String className, String methodName) throws Exception {
         String classMethodName = className + "." + methodName;
         String s1 = JSON.toJSONString(inParam);
         String x = s1.replaceAll("\"", "\\\\\"");
@@ -202,7 +180,6 @@ public class YxyHttpClientUtils {
                 "    \"methodName\":\"" + classMethodName + "\"," +
                 "    \"systemCode\":\"" + PublicAgentMain.externalParamInfo.getSystemCode() + "\"" +
                 "}";
-        System.out.println("yxyagent->returnClassName->" + returnClassName);
         System.out.println("yxyagent->请求数据->" + requestJson);
         String s = sendPostJson(PublicAgentMain.externalParamInfo.getCodeHref(), requestJson);
         System.out.println("yxyagent->返回值->" + s);
