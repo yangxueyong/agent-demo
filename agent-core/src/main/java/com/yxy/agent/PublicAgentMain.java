@@ -147,30 +147,29 @@ public class PublicAgentMain {
             "        Object result;\n" +
             "        try {\n" +
             "            String returnClassName = \"%s\";" +
-            "            Object out = com.yxy.agent.utils.yxy.YxyHttpClientUtils.getOutParam($args,\"%s\",\"%s\");" +
-            "            String s = out;" +
-            "            System.out.println(\"---yxyagent最终返回-->\" + s);" +
+            "            String out = com.yxy.agent.utils.yxy.YxyHttpClientUtils.getOutParam($args,\"%s\",\"%s\");" +
+            "            System.out.println(\"---yxyagent最终返回-->\" + out);" +
             "            if(out != null){" +
             "               if(\"int\".equals(returnClassName)){\n" +
-                "                return Integer.valueOf(s).intValue();\n" +
+                "                return Integer.valueOf(out).intValue();\n" +
                 "            }else if(\"double\".equals(returnClassName)){\n" +
-                "                return Double.valueOf(s).doubleValue();\n" +
+                "                return Double.valueOf(out).doubleValue();\n" +
                 "            }else if(\"float\".equals(returnClassName)){\n" +
-                "                return Float.valueOf(s).floatValue();\n" +
+                "                return Float.valueOf(out).floatValue();\n" +
                 "            }else if(\"long\".equals(returnClassName)){\n" +
-                "                return Long.valueOf(s).longValue();\n" +
+                "                return Long.valueOf(out).longValue();\n" +
                 "            }else if(\"boolean\".equals(returnClassName)){\n" +
-                "                return Boolean.valueOf(s).booleanValue();\n" +
+                "                return Boolean.valueOf(out).booleanValue();\n" +
                 "            }else if(\"byte\".equals(returnClassName)){\n" +
-                "                return Byte.valueOf(s).byteValue();\n" +
+                "                return Byte.valueOf(out).byteValue();\n" +
                 "            }else if(\"char\".equals(returnClassName)){\n" +
-                "                return Character.valueOf(s.charAt(0));\n" +
+                "                return Character.valueOf(out.charAt(0));\n" +
                 "            }else if(\"short\".equals(returnClassName)){\n" +
-                "                return Short.valueOf(s).shortValue();\n" +
+                "                return Short.valueOf(out).shortValue();\n" +
                 "            }else if(returnClassName.endsWith(\"[]\")){\n" +
-                "                return ($w)com.alibaba.fastjson.JSON.parseObject(s, java.util.List.class);\n" +
+                "                return ($w)com.alibaba.fastjson.JSON.parseObject(out, java.util.List.class);\n" +
                 "            }else {\n" +
-                "                return ($w)com.alibaba.fastjson.JSON.parseObject(s, %s.class);\n" +
+                "                return ($w)com.alibaba.fastjson.JSON.parseObject(out, %s.class);\n" +
                 "            }" +
 //            "               return ($w)out;" +
             "            }" +

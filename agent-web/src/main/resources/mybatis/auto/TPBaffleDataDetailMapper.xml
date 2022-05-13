@@ -50,7 +50,7 @@
            and m.status=1
            and m.system_code =#{systemCode}
            and m.method_name =#{methodName}
-           and LOCATE(d.in_param ,#{inParam})>0) c limit 1
+           and LOCATE(REPLACE(REPLACE(REPLACE(REPLACE(d.in_param,char(10),''),char(9),''),char(13),''),' ','') ,REPLACE(REPLACE(REPLACE(REPLACE(#{inParam},char(10),''),char(13),''),char(9),''),' ',''))>0) c limit 1
 <!--           and d.in_param  like concat('%',#{inParam},'%')-->
     </select>
 
