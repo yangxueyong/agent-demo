@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
 import com.yxy.agent.PublicAgentMain;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
@@ -172,8 +171,9 @@ public class YxyHttpClientUtils {
     }
 
     private static String getOutParamString(Object[] inParam, String className, String methodName) throws Exception {
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
         String classMethodName = className + "." + methodName;
-        String s1 = JSON.toJSONString(inParam);
+        String s1 = mapper.writeValueAsString(inParam);
         String x = s1.replaceAll("\"", "\\\\\"");
         String requestJson = "{" +
                 "    \"inParam\":\"" + x + "\"," +
